@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="km" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BELTEI International University</title>
+    <!-- Google Fonts: Kantumruy Pro & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --primary: #1e3a8a;       /* ពណ៌ខៀវចាស់សុភាព */
+            --primary-light: #eff6ff;
+            --hover: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Kantumruy Pro', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header / Navbar សាមញ្ញ --- */
+        .navbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .brand-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-greeting {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .btn-logout {
+            font-size: 13px;
+            color: #dc2626;
+            text-decoration: none;
+            padding: 6px 14px;
+            border: 1px solid #fecaca;
+            background: #fff;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #fee2e2;
+        }
+
+        /* --- Main Layout --- */
+        .container {
+            max-width: 960px;
+            width: 100%;
+            margin: 32px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        /* Page Title Header */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Simple Stat Cards */
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card-stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+        }
+
+        .card-stat .title {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .card-stat .number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Section Card */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Simple Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        /* Quick Action Links */
+        .actions-list {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .action-link:hover {
+            background: var(--hover);
+            border-color: #cbd5e1;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Top Bar -->
+    <header class="navbar">
+        <a href="#" class="brand">
+            <span class="brand-badge">BELTEI</span>
+            <span>Student Portal</span>
+        </a>
+
+        <div class="nav-right">
+            <div class="user-greeting">
+                សួស្តី, <span class="user-name" th:text="${name != null ? name : 'User'}">User</span>
+            </div>
+            <a th:href="@{/login}" class="btn-logout">ចាកចេញ (Logout)</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Title -->
+        <div class="page-header">
+            <h2>ផ្ទាំងគ្រប់គ្រងព័ត៌មាន (Dashboard)</h2>
+            <p>ព័ត៌មានទូទៅ និងកាលវិភាគសិក្សារបស់អ្នក</p>
+        </div>
+
+        <!-- 3 Simple Stat Cards -->
+        <div class="grid-stats">
+            <div class="card-stat">
+                <div class="title">មុខវិជ្ជាឆមាសនេះ</div>
+                <div class="number">5 មុខ</div>
+            </div>
+            <div class="card-stat">
+                <div class="title">វត្តមានសរុប</div>
+                <div class="number">98%</div>
+            </div>
+            <div class="card-stat">
+                <div class="title">ពិន្ទុមធ្យមភាគ (GPA)</div>
+                <div class="number">3.85</div>
+            </div>
+        </div>
+
+        <!-- Class Schedule Table -->
+        <div class="card">
+            <h3 class="card-title">កាលវិភាគសិក្សាថ្ងៃនេះ</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ម៉ោង</th>
+                        <th>មុខវិជ្ជា</th>
+                        <th>បន្ទប់</th>
+                        <th>សាស្ត្រាចារ្យ</th>
+                        <th>ស្ថានភាព</th>q
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>05:30 - 7:00 PM</td>
+                        <td>Java Spring Boot</td>
+                        <td>204</td>
+                        <td>Mr. Buntheoun</td>
+                        <td><span class="status-badge">រួចរាល់</span></td>
+                    </tr>
+                    <tr>
+                        <td>07:30 - 08:30 PM</td>
+                        <td>Java Spring Boot</td>
+                        <td>204</td>
+                        <td>Mr. Buntheoun</td>
+                        <td><span class="status-badge">រួចរាល់</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="card">
+            <h3 class="card-title">សេវាកម្មទូទៅ</h3>
+            <div class="actions-list">
+                <a href="#" class="action-link">👤 ព័ត៌មានផ្ទាល់ខ្លួន</a>
+                <a href="#" class="action-link">📚 មើលពិន្ទុ & ក្រេឌីត</a>
+                <a href="#" class="action-link">💳 វិក្កយបត្រសិក្សា</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        © 2026 BELTEI International University
+    </footer>
+
+</body>
+</html>
